@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/guard/play/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Hank Stoever"]
@@ -7,6 +6,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{TODO: Write a gem description}
   gem.summary       = %q{TODO: Write a gem summary}
   gem.homepage      = ""
+  gem.add_dependency("faraday")
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

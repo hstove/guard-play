@@ -1,8 +1,18 @@
 require 'guard'
 require 'guard/guard'
-
+require 'faraday'
 module Guard
   class Play < Guard
+
+    def test name
+      conn = Faraday::Connection.new "http://localhost:9000"
+      r = conn.get "/@tests/#{name}.class"
+      passed = r.status == 200 ? true : false
+      message = "Test #{name} #{passed ? 'passed' : 'failed'}."
+      image = passed ? :success : :failed
+      ::Guard::UI.info message
+      ::Guard::Notifier.notify(message, :title => "Guard::Play", :image => image)
+    end
 
     # Initialize a Guard.
     # @param [Array<Guard::Watcher>] watchers the Guard file watchers
@@ -44,7 +54,8 @@ module Guard
     # @raise [:task_has_failed] when run_on_change has failed
     def run_on_changes(paths)
       paths.each do |file|
-        p file
+        ::Guard::UI.info "Testing #{file}."
+        test file
       end
     end
 
