@@ -3,9 +3,9 @@
 Gem::Specification.new do |gem|
   gem.authors       = ["Hank Stoever"]
   gem.email         = ["hstove@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{A Guard plugin for watching and running Play Framework tests}
+  gem.summary       = %q{Runs play tests when files are changed.}
+  gem.homepage      = "https://github.com/hstove"
   gem.add_dependency("faraday")
 
   gem.files         = `git ls-files`.split($\)
