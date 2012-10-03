@@ -1,6 +1,6 @@
 # Guard::Play
 
-TODO: Write a gem description
+A [guard](https://github.com/guard/guard) plugin for automatically running tests with Play Framework.
 
 ## Installation
 
@@ -18,12 +18,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Then run:
 
-## Contributing
+    $ guard init play
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+This will setup your `Guardfile` with the basics you need to watch tests. To run guard, simply run:
+
+    $ guard
+
+Once guard is running, anytime one of the 'watched' files is changed, the specified test will be run.
+
+The next steps are to add additional files to watch, with accompanied tests to run. For example:
+
+```ruby
+guard 'play' do
+  watch(/test\/([^\/]+)\.java$/) {|m| "#{m[1]}"}
+  watch(/test\/(.+)\/(.+)\.java/) {|m| "#{m[1]}.#{m[2]}"} # watch tests in sub-packages
+  watch("app/controllers/PostsController.java") { "PostsTest" }
+end
+```
+
+I found it helpful to add a few helper methods for watching models and controllers:
+
+```ruby
+guard 'play' do
+  def model(name, test)
+    self.watch("app/models/#{name}") { test }
+  end
+  def controller(name, test)
+    self.watch("app/controllers/#{name}") {test}
+  end
+  model "User.java", "UserTest" # => watch("app/models/User.java") { "UserTest" }
+  controller "Auth.java", "AuthTest"
+end
+```
+
+Hopefully you find it helpful!
+
+##Todo
+
+* support for selenium tests
