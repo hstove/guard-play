@@ -6,7 +6,7 @@ module Guard
 
     def test name
       conn = Faraday::Connection.new "http://localhost:9000"
-      r = conn.get "/@tests/#{name}.class"
+      r = conn.get "/@tests/#{name.gsub('/','.')}.class"
       passed = r.status == 200 ? true : false
       message = "Test #{name} #{passed ? 'passed' : 'failed'}."
       image = passed ? :success : :failed
